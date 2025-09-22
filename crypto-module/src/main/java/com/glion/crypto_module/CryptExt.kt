@@ -15,7 +15,7 @@ package com.glion.crypto_module
 fun String.encryptRSA() : ByteArray = RSAUtils.encrypt(this)
 fun ByteArray.encryptRSA(): ByteArray = RSAUtils.encrypt(this)
 fun ByteArray.decryptRSA(): String = RSAUtils.decrypt(this)
-fun ByteArray.decryptByteArray(): ByteArray = RSAUtils.decryptByteArray(this)
+fun ByteArray.decryptRSAByteArray(): ByteArray = RSAUtils.decryptByteArray(this)
 
 // AES 관련(KeyStore 생성)
 fun String.encryptKeyStoreAES(): Pair<ByteArray, ByteArray> = AESUtils.encrypt(this)

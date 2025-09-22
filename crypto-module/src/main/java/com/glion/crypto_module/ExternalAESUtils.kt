@@ -39,7 +39,7 @@ object ExternalAESUtils {
     fun saveAESKey(context: Context, encryptedAESKey: ByteArray) {
         // 암호화된 상태 AES 키 값을 복호화하여 메모리에 저장 - 추후 사용하기 위함
         if(RSAUtils.rsaKey == null) throw CryptoException("AES 키 복호화를 위해 RSA 키 생성이 필요합니다.")
-        aesKey = encryptedAESKey.decryptByteArray()
+        aesKey = encryptedAESKey.decryptRSAByteArray()
         // 암호화된 상태 그대로 파일에 저장
         val file = File(context.filesDir, FILE_NAME)
         FileOutputStream(file).use { it.write(encryptedAESKey) }
@@ -54,7 +54,7 @@ object ExternalAESUtils {
         if(!file.exists()) throw CryptoException("저장된 AES 키 파일이 없습니다")
         val encryptedAeyBytes = FileInputStream(file).use { it.readBytes() }
         if(RSAUtils.rsaKey == null) throw CryptoException("AES 키 복호화를 위해 RSA 키 생성이 필요합니다.")
-        aesKey = encryptedAeyBytes.decryptByteArray()
+        aesKey = encryptedAeyBytes.decryptRSAByteArray()
     }
 
     /**
