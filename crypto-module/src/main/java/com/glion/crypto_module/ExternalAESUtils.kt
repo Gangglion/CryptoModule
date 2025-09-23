@@ -28,6 +28,12 @@ object ExternalAESUtils {
 
     private const val FILE_NAME = "aesKey"
 
+    private lateinit var fileDir: File
+
+    fun init(context: Context) {
+        fileDir = context.filesDir
+    }
+
     // aes 키 값
     private var aesKey: ByteArray? = null
 
@@ -36,12 +42,12 @@ object ExternalAESUtils {
      * @param context Context 객체
      * @param encryptedAESKey 암호화된 AES 키 값
      */
-    fun saveAESKey(context: Context, encryptedAESKey: ByteArray) {
+    fun saveAESKey(encryptedAESKey: ByteArray) {
         // 암호화된 상태 AES 키 값을 복호화하여 메모리에 저장 - 추후 사용하기 위함
         if(RSAUtils.rsaKey == null) throw CryptoException("AES 키 복호화를 위해 RSA 키 생성이 필요합니다.")
         aesKey = encryptedAESKey.decryptRSAByteArray()
         // 암호화된 상태 그대로 파일에 저장
-        val file = File(context.filesDir, FILE_NAME)
+        val file = File(fileDir, FILE_NAME)
         FileOutputStream(file).use { it.write(encryptedAESKey) }
     }
 
@@ -49,8 +55,8 @@ object ExternalAESUtils {
      * 파일에서 AES Key 값을 가져옴
      * @param context Context 객체
      */
-    fun getAesKeyFromFile(context: Context) {
-        val file = File(context.filesDir, FILE_NAME)
+    fun getAesKeyFromFile() {
+        val file = File(fileDir, FILE_NAME)
         if(!file.exists()) throw CryptoException("저장된 AES 키 파일이 없습니다")
         val encryptedAeyBytes = FileInputStream(file).use { it.readBytes() }
         if(RSAUtils.rsaKey == null) throw CryptoException("AES 키 복호화를 위해 RSA 키 생성이 필요합니다.")
@@ -60,7 +66,7 @@ object ExternalAESUtils {
     /**
      * 앱 내부저장소에 AES 키 파일 있는지 확인
      */
-    fun isExistAESKeyFile(context: Context) = File(context.filesDir, FILE_NAME).exists()
+    fun isExistAESKeyFile() = File(fileDir, FILE_NAME).exists()
 
     /**
      * IV 값 생성

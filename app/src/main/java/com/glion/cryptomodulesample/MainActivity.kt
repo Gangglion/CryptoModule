@@ -11,7 +11,7 @@ import com.glion.crypto_module.ExternalAESUtils
 import com.glion.crypto_module.RSAUtils
 import com.glion.crypto_module.decryptExternalAES
 import com.glion.crypto_module.decryptKeyStoreAES
-import com.glion.crypto_module.decryptRSA
+import com.glion.crypto_module.decryptRSAStr
 import com.glion.crypto_module.encryptExternalAES
 import com.glion.crypto_module.encryptKeyStoreAES
 import com.glion.crypto_module.encryptRSA
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("glion", "암호화 전 : $origin1")
         val encryptedOrigin1 = origin1.encryptRSA()
         Log.d("glion", "암호화 완료 : $encryptedOrigin1")
-        val decrypted1 = encryptedOrigin1.decryptRSA()
+        val decrypted1 = encryptedOrigin1.decryptRSAStr()
         Log.d("glion", "복호화 완료 : $decrypted1")
         Log.d("glion", "############### RSA 암복호화 테스트 종료 ###############")
 
@@ -60,9 +60,9 @@ class MainActivity : AppCompatActivity() {
         val tempKey = KeyGenerator.getInstance("AES").apply { init(256) }.generateKey().encoded
         Log.d("glion", "AES Key : $tempKey")
         Log.d("glion", "##### 로컬에 AES 키 저장 #####")
-        ExternalAESUtils.saveAESKey(this, tempKey.encryptRSA())
+        ExternalAESUtils.saveAESKey(tempKey.encryptRSA())
         Log.d("glion", "##### 로컬에 AES 키 저장되었는지 확인 #####")
-        Log.d("glion", "결과 :: ${ExternalAESUtils.isExistAESKeyFile(this)}")
+        Log.d("glion", "결과 :: ${ExternalAESUtils.isExistAESKeyFile()}")
         val origin3 = "abcdefghijklmnopqrstuvwxxyz"
         Log.d("glion", "암호화 전 : $origin3")
         val encryptedOrigin3 = origin3.encryptExternalAES()

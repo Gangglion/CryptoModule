@@ -11,17 +11,51 @@ package com.glion.crypto_module
  * Copyright @2025 Gangglion. All rights reserved
  */
 
-// RSA 관련
+/**
+ * 문자열 -> RSA 암호화
+ * @return 암호화된 바이트배열
+ */
 fun String.encryptRSA() : ByteArray = RSAUtils.encrypt(this)
+
+/**
+ * 바이트배열 -> RSA 암호화
+ * @return 암호화된 바이트배열
+ */
 fun ByteArray.encryptRSA(): ByteArray = RSAUtils.encrypt(this)
-fun ByteArray.decryptRSA(): String = RSAUtils.decrypt(this)
+
+/**
+ * 바이트배열 -> RSA 복호화 -> 문자열
+ * @return 복호화된 문자열
+ */
+fun ByteArray.decryptRSAStr(): String = RSAUtils.decrypt(this)
+
+/**
+ * 바이트배열 -> RSA 복호화 -> 바이트배열
+ * @return 복호화된 바이트배열
+ */
 fun ByteArray.decryptRSAByteArray(): ByteArray = RSAUtils.decryptByteArray(this)
 
-// AES 관련(KeyStore 생성)
+/**
+ * 문자열 -> AES 암호화(키스토어 사용)
+ * @return 암호화된 바이트배열, iv 바이트배열
+ */
 fun String.encryptKeyStoreAES(): Pair<ByteArray, ByteArray> = AESUtils.encrypt(this)
-fun Pair<ByteArray, ByteArray>.decryptKeyStoreAES() = AESUtils.decrypt(this.first, this.second)
 
-// AES 관련(외부 AES 키 사용)
+/**
+ * (바이트배열, iv) -> AES 복호화(키스토어 사용)
+ * @return 복호화된 문자열
+ */
+fun Pair<ByteArray, ByteArray>.decryptKeyStoreAES() : String = AESUtils.decrypt(this.first, this.second)
+
+/**
+ * 문자열 -> AES 암호화(외부 AES 키 사용)
+ * @return 암호화된 바이트배열, iv 바이트배열
+ */
 fun String.encryptExternalAES(): Pair<ByteArray, ByteArray> = ExternalAESUtils.encrypt(this)
-fun Pair<ByteArray, ByteArray>.decryptExternalAES() = ExternalAESUtils.decrypt(this.first, this.second)
+
+/**
+ * (바이트배열, iv) -> AES 복호화(외부 AES 키 사용)
+ * @return 복호화된 문자열
+ */
+fun Pair<ByteArray, ByteArray>.decryptExternalAES() : String = ExternalAESUtils.decrypt(this.first, this.second)
 
