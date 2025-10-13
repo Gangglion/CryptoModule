@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.glion.crypto_module.AESUtils
-import com.glion.crypto_module.CryptoException
 import com.glion.crypto_module.RSAUtils
 import java.io.File
 import java.io.FileInputStream
@@ -114,7 +113,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun getAesKeyFromFile(context: Context, rsaUtils: RSAUtils) : ByteArray {
         val file = File(context.filesDir, FILE_NAME)
-        if(!isExistAESKeyFile(context)) throw CryptoException("저장된 AES 키 파일이 없습니다")
+        if(!isExistAESKeyFile(context)) throw Exception("저장된 AES 키 파일이 없습니다")
         val encryptedAeyBytes = FileInputStream(file).use { it.readBytes() }
         val privateKey = rsaUtils.getOrCreateRSAKeyPair().private
         return rsaUtils.decryptByteArray(privateKey, encryptedAeyBytes)
