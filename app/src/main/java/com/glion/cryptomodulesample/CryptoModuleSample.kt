@@ -1,7 +1,6 @@
 package com.glion.cryptomodulesample
 
 import android.app.Application
-import com.glion.crypto_module.ExternalAESUtils
 
 /**
  * Project : CryptoModuleSample
@@ -16,8 +15,5 @@ import com.glion.crypto_module.ExternalAESUtils
 class CryptoModuleSample : Application() {
     override fun onCreate() {
         super.onCreate()
-
-        // 외부 AES 키 사용시 초기화 필수
-        ExternalAESUtils.init(this)
     }
 }
